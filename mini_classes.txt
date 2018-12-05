@@ -1,11 +1,2 @@
-aircraft carrier
-ambulance
-apple
-axe
 butterfly
-carrot
 cat
-clock
-tractor
-whale
-windmill

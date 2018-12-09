@@ -5,7 +5,6 @@ basketball
 bicycle
 boomerang
 butterfly
-calculator
 car
 carrot
 cat

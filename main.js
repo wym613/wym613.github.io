@@ -24,6 +24,7 @@ $(function() {
     //setup listeners 
     canvas.on('mouse:up', function(e) {
         getFrame();
+        getFrame2();
         mousePressed = false
     });
     canvas.on('mouse:down', function(e) {
@@ -47,7 +48,18 @@ function setTable(top5, probs) {
     }
     //create the pie 
     createPie(".pieID.legend", ".pieID.pie");
-    createPie(".pieID2.legend", ".pieID2.pie2");
+
+}
+function setTable2(top5, probs) {
+    //loop over the predictions 
+    for (var i = 0; i < top5.length; i++) {
+        let sym = document.getElementById('sym' + (i + 1))
+        let prob = document.getElementById('prob' + (i + 1))
+        sym.innerHTML = top5[i]
+        prob.innerHTML = Math.round(probs[i] * 100)
+    }
+    //create the pie 
+    createPie(".pieID2.legend", ".pieID2.pie");
 
 }
 
@@ -119,19 +131,35 @@ function getFrame() {
 
         //get the prediction 
         const pred = model.predict(preprocess(imgData)).dataSync()
-        const pred2 = model2.predict(preprocess(imgData)).dataSync()
 
         //find the top 5 predictions 
         const indices = findIndicesOfMax(pred, 5)
-        const indices2 = findIndicesOfMax(pred2, 5)
         const probs = findTopValues(pred, 5)
-        const probs2 = findTopValues(pred2, 5)
         const names = getClassNames(indices)
-        const names2 = getClassNames(indices2)
 
         //set the table 
         setTable(names, probs)
-        setTable(names2, probs2)
+    }
+
+}
+
+function getFrame2() {
+    //make sure we have at least two recorded coordinates 
+    if (coords.length >= 2) {
+
+        //get the image data from the canvas 
+        const imgData = getImageData()
+
+        //get the prediction 
+        const pred2 = model2.predict(preprocess(imgData)).dataSync()
+
+        //find the top 5 predictions 
+        const indices2 = findIndicesOfMax(pred2, 5)
+        const probs2 = findTopValues(pred2, 5)
+        const names2 = getClassNames(indices2)
+
+        //set the table 
+        setTable2(names2, probs2)
     }
 
 }
@@ -228,10 +256,25 @@ async function start(cur_mode) {
     
     //load the model 
     model = await tf.loadModel('model/model.json')
-    model2 = await tf.loadModel('model_lstm/model.json')
     
     //warm up 
     model.predict(tf.zeros([1, 28, 28, 1]))
+    
+    //allow drawing on the canvas 
+    allowDrawing()
+    
+    //load the class names
+    await loadDict()
+}
+
+async function start2(cur_mode) {
+    //arabic or english
+    mode = cur_mode
+    
+    //load the model 
+    model2 = await tf.loadModel('model_lstm/model.json')
+    
+    //warm up 
     model2.predict(tf.zeros([1, 28, 28, 1]))
     
     //allow drawing on the canvas 

@@ -128,9 +128,9 @@ function getImageData2() {
 
         //get image data according to dpi 
         const dpi = window.devicePixelRatio
-        const imgData = canvas.contextContainer.getImageData(mbb.min.x * dpi, mbb.min.y * dpi,
+        const imgData2 = canvas.contextContainer.getImageData(mbb.min.x * dpi, mbb.min.y * dpi,
                                                       (mbb.max.x - mbb.min.x) * dpi, (mbb.max.y - mbb.min.y) * dpi);
-        return imgData
+        return imgData2
     }
 
 /*
@@ -162,10 +162,10 @@ function getFrame2() {
     if (coords.length >= 2) {
 
         //get the image data from the canvas 
-        const imgData = getImageData2()
+        const imgData2 = getImageData2()
 
         //get the prediction 
-        const pred2 = model2.predict(preprocess2(imgData)).dataSync()
+        const pred2 = model2.predict(preprocess2(imgData2)).dataSync()
 
         //find the top 5 predictions 
         const indices2 = findIndicesOfMax(pred2, 5)

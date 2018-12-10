@@ -311,8 +311,9 @@ function preprocess(imgData) {
 function preprocess2(imgData2) {
     return tf.tidy(() => {
         //convert to a tensor 
-        //let tensor2 = tf.fromPixels(imgData2, numChannels = 1)
-        let tensor2 = tf.tensor([1,28,28]);
+        let tensor2 = tf.fromPixels(imgData2, numChannels = 1);
+        //let tensor2 = tf.tensor([1,28,28]);
+        let tensor2 = tensor2.as1D();
         
         //resize 
         const resized2 = tf.image.resizeBilinear(tensor2, [28, 28]).toFloat()

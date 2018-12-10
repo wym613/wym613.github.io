@@ -154,7 +154,7 @@ function getFrame2() {
         const imgData = getImageData()
 
         //get the prediction 
-        const pred2 = model2.predict(preprocess(imgData)).dataSync()
+        const pred2 = model2.predict(preprocess2(imgData)).dataSync()
 
         //find the top 5 predictions 
         const indices2 = findIndicesOfMax(pred2, 5)
@@ -280,6 +280,24 @@ function findTopValues2(inp, count) {
 preprocess the data
 */
 function preprocess(imgData) {
+    return tf.tidy(() => {
+        //convert to a tensor 
+        let tensor = tf.fromPixels(imgData, numChannels = 1)
+        
+        //resize 
+        const resized = tf.image.resizeBilinear(tensor, [28, 28]).toFloat()
+        
+        //normalize 
+        const offset = tf.scalar(255.0);
+        const normalized = tf.scalar(1.0).sub(resized.div(offset));
+
+        //We add a dimension to get a batch shape 
+        const batched = normalized.expandDims(0)
+        return batched
+    })
+}
+
+function preprocess2(imgData) {
     return tf.tidy(() => {
         //convert to a tensor 
         let tensor = tf.fromPixels(imgData, numChannels = 1)

@@ -353,7 +353,7 @@ async function start2(cur_mode) {
     model2 = await tf.loadModel('model_lstm/model.json')
     
     //warm up 
-    model2.predict(tf.zeros([1, 28, 28, 1]))
+    model2.predict(tf.zeros([1, 28, 28]))
     
     //allow drawing on the canvas 
     allowDrawing2()

@@ -24,6 +24,9 @@ $(function() {
     //setup listeners 
     canvas.on('mouse:up', function(e) {
         getFrame();
+        mousePressed = false
+    });
+    canvas.on('mouse:up', function(e) {
         getFrame2();
         mousePressed = false
     });
@@ -53,13 +56,13 @@ function setTable(top5, probs) {
 function setTable2(top5, probs) {
     //loop over the predictions 
     for (var i = 0; i < top5.length; i++) {
-        let sym = document.getElementById('sym' + (i + 1))
-        let prob = document.getElementById('prob' + (i + 1))
+        let sym = document.getElementById('sym' + (i + 21))
+        let prob = document.getElementById('prob' + (i + 21))
         sym.innerHTML = top5[i]
         prob.innerHTML = Math.round(probs[i] * 100)
     }
     //create the pie 
-    createPie(".pieID2.legend", ".pieID2.pie2");
+    createPie(".pieID2.legend2", ".pieID2.pie2");
 
 }
 

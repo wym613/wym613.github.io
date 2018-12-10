@@ -16,6 +16,10 @@
   position: relative;
   margin: 0 30px 30px 0;
 }
+.pieID2 {
+  display: inline-block;
+  vertical-align: top;
+}
 .pie::before {
   content: "";
   display: block;

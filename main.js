@@ -47,6 +47,7 @@ function setTable(top5, probs) {
     }
     //create the pie 
     createPie(".pieID.legend", ".pieID.pie");
+    createPie(".pieID.legend", ".pieID.pie");
 
 }
 
@@ -124,7 +125,7 @@ function getFrame() {
         const indices = findIndicesOfMax(pred, 5)
         const indices2 = findIndicesOfMax(pred2, 5)
         const probs = findTopValues(pred, 5)
-        const probs = findTopValues(pred2, 5)
+        const probs2 = findTopValues(pred2, 5)
         const names = getClassNames(indices)
         const names2 = getClassNames(indices2)
 

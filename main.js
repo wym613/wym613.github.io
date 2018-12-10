@@ -62,7 +62,7 @@ function setTable2(top5, probs) {
         prob.innerHTML = Math.round(probs[i] * 100)
     }
     //create the pie 
-    createPie(".pieID2.legend2", ".pieID2.pie2");
+    createPie2(".pieID2.legend2", ".pieID2.pie2");
 
 }
 

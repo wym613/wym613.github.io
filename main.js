@@ -59,7 +59,7 @@ function setTable2(top5, probs) {
         prob.innerHTML = Math.round(probs[i] * 100)
     }
     //create the pie 
-    createPie(".pieID2.legend", ".pieID2.pie");
+    createPie(".pieID2.legend", ".pieID2.pie2");
 
 }
 
@@ -256,25 +256,10 @@ async function start(cur_mode) {
     
     //load the model 
     model = await tf.loadModel('model/model.json')
-    
-    //warm up 
-    model.predict(tf.zeros([1, 28, 28, 1]))
-    
-    //allow drawing on the canvas 
-    allowDrawing()
-    
-    //load the class names
-    await loadDict()
-}
-
-async function start2(cur_mode) {
-    //arabic or english
-    mode = cur_mode
-    
-    //load the model 
     model2 = await tf.loadModel('model_lstm/model.json')
     
     //warm up 
+    model.predict(tf.zeros([1, 28, 28, 1]))
     model2.predict(tf.zeros([1, 28, 28, 1]))
     
     //allow drawing on the canvas 
@@ -283,6 +268,8 @@ async function start2(cur_mode) {
     //load the class names
     await loadDict()
 }
+
+
 
 /*
 allow drawing on canvas

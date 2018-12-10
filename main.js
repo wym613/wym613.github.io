@@ -122,6 +122,17 @@ function getImageData() {
         return imgData
     }
 
+function getImageData2() {
+        //get the minimum bounding box around the drawing 
+        const mbb = getMinBox()
+
+        //get image data according to dpi 
+        const dpi = window.devicePixelRatio
+        const imgData = canvas.contextContainer.getImageData(mbb.min.x * dpi, mbb.min.y * dpi,
+                                                      (mbb.max.x - mbb.min.x) * dpi, (mbb.max.y - mbb.min.y) * dpi);
+        return imgData
+    }
+
 /*
 get the prediction 
 */
@@ -151,7 +162,7 @@ function getFrame2() {
     if (coords.length >= 2) {
 
         //get the image data from the canvas 
-        const imgData = getImageData()
+        const imgData = getImageData2()
 
         //get the prediction 
         const pred2 = model2.predict(preprocess2(imgData)).dataSync()

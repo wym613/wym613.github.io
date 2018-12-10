@@ -308,21 +308,22 @@ function preprocess(imgData) {
     })
 }
 
-function preprocess2(imgData) {
+function preprocess2(imgData2) {
     return tf.tidy(() => {
         //convert to a tensor 
-        let tensor = tf.fromPixels(imgData, numChannels = 1)
+        //let tensor2 = tf.fromPixels(imgData2, numChannels = 1)
+        let tensor2 = tf.tensor([1,28,28]);
         
         //resize 
-        const resized = tf.image.resizeBilinear(tensor, [28, 28]).toFloat()
+        const resized2 = tf.image.resizeBilinear(tensor2, [28, 28]).toFloat()
         
         //normalize 
-        const offset = tf.scalar(255.0);
-        const normalized = tf.scalar(1.0).sub(resized.div(offset));
+        const offset2 = tf.scalar(255.0);
+        const normalized2 = tf.scalar(1.0).sub(resized.div(offset));
 
         //We add a dimension to get a batch shape 
-        const batched = normalized.expandDims(0)
-        return batched
+        const batched2 = normalized2.expandDims(0)
+        return batched2
     })
 }
 

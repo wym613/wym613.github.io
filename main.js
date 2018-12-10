@@ -158,8 +158,8 @@ function getFrame2() {
 
         //find the top 5 predictions 
         const indices2 = findIndicesOfMax(pred2, 5)
-        const probs2 = findTopValues(pred2, 5)
-        const names2 = getClassNames(indices2)
+        const probs2 = findTopValues2(pred2, 5)
+        const names2 = getClassNames2(indices2)
 
         //set the table 
         setTable2(names2, probs2)
@@ -177,11 +177,18 @@ function getClassNames(indices) {
     return outp
 }
 
+function getClassNames2(indices) {
+    var outp = []
+    for (var i = 0; i < indices.length; i++)
+        outp[i] = classNames[indices[i]]
+    return outp
+}
+
 /*
 load the class names 
 */
 async function loadDict() {
-    loc = 'model/class_names.txt'
+    loc = 'model_lstm/class_names.txt'
     
     await $.ajax({
         url: loc,
@@ -189,10 +196,27 @@ async function loadDict() {
     }).done(success);
 }
 
+async function loadDict2() {
+    loc = 'model/class_names.txt'
+    
+    await $.ajax({
+        url: loc,
+        dataType: 'text',
+    }).done(success2);
+}
+
 /*
 load the class names
 */
 function success(data) {
+    const lst = data.split(/\n/)
+    for (var i = 0; i < lst.length - 1; i++) {
+        let symbol = lst[i]
+        classNames[i] = symbol
+    }
+}
+
+function success2(data) {
     const lst = data.split(/\n/)
     for (var i = 0; i < lst.length - 1; i++) {
         let symbol = lst[i]
@@ -217,12 +241,35 @@ function findIndicesOfMax(inp, count) {
     return outp;
 }
 
+function findIndicesOfMax2(inp, count) {
+    var outp = [];
+    for (var i = 0; i < inp.length; i++) {
+        outp.push(i); // add index to output array
+        if (outp.length > count) {
+            outp.sort(function(a, b) {
+                return inp[b] - inp[a];
+            }); // descending sort the output array
+            outp.pop(); // remove the last index (index of smallest element in output array)
+        }
+    }
+    return outp;
+}
+
 /*
 find the top 5 predictions
 */
 function findTopValues(inp, count) {
     var outp = [];
     let indices = findIndicesOfMax(inp, count)
+    // show 5 greatest scores
+    for (var i = 0; i < indices.length; i++)
+        outp[i] = inp[indices[i]]
+    return outp
+}
+
+function findTopValues2(inp, count) {
+    var outp = [];
+    let indices = findIndicesOfMax2(inp, count)
     // show 5 greatest scores
     for (var i = 0; i < indices.length; i++)
         outp[i] = inp[indices[i]]
@@ -280,10 +327,10 @@ async function start2(cur_mode) {
     model2.predict(tf.zeros([1, 28, 28, 1]))
     
     //allow drawing on the canvas 
-    allowDrawing()
+    allowDrawing2()
     
     //load the class names
-    await loadDict()
+    await loadDict2()
 }
 
 
@@ -302,6 +349,16 @@ function allowDrawing() {
     };
 }
 
+function allowDrawing2() {
+    canvas.isDrawingMode = 1;
+    if (mode == 'en')
+        document.getElementById('status').innerHTML = 'Model Loaded';
+    $('button').prop('disabled', false);
+    var slider = document.getElementById('myRange');
+    slider.oninput = function() {
+        canvas.freeDrawingBrush.width = this.value;
+    };
+}
 /*
 clear the canvs 
 */

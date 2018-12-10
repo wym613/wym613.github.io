@@ -2,8 +2,10 @@
 variables
 */
 var model;
+var model2;
 var canvas;
 var classNames = [];
+var classNames2 = [];
 var canvas;
 var coords = [];
 var mousePressed = false;
@@ -116,14 +118,19 @@ function getFrame() {
 
         //get the prediction 
         const pred = model.predict(preprocess(imgData)).dataSync()
+        const pred2 = model2.predict(preprocess(imgData)).dataSync()
 
         //find the top 5 predictions 
         const indices = findIndicesOfMax(pred, 5)
+        const indices2 = findIndicesOfMax(pred2, 5)
         const probs = findTopValues(pred, 5)
+        const probs = findTopValues(pred2, 5)
         const names = getClassNames(indices)
+        const names2 = getClassNames(indices2)
 
         //set the table 
         setTable(names, probs)
+        setTable(names2, probs2)
     }
 
 }
@@ -220,9 +227,11 @@ async function start(cur_mode) {
     
     //load the model 
     model = await tf.loadModel('model/model.json')
+    model2 = await tf.loadModel('model_lstm/model.json')
     
     //warm up 
     model.predict(tf.zeros([1, 28, 28, 1]))
+    model2.predict(tf.zeros([1, 28, 28, 1]))
     
     //allow drawing on the canvas 
     allowDrawing()

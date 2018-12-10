@@ -199,7 +199,7 @@ function getClassNames2(indices) {
 load the class names 
 */
 async function loadDict() {
-    loc = 'model_lstm/class_names.txt'
+    loc = 'model/class_names.txt'
     
     await $.ajax({
         url: loc,
@@ -208,7 +208,7 @@ async function loadDict() {
 }
 
 async function loadDict2() {
-    loc = 'model/class_names.txt'
+    loc = 'model_lstm/class_names.txt'
     
     await $.ajax({
         url: loc,
